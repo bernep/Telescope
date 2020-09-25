@@ -1,7 +1,7 @@
 
 use crate::{
     templates::navbar::login_modal::LoginModal,
-    web::{cookies, RequestContext, Template},
+    web::{RequestContext, Template},
 };
 
 use uuid::Uuid;
@@ -82,7 +82,7 @@ impl Navbar {
                     "login",
                     "Login",
                     "btn-secondary",
-                    ctx.render(&LoginModal).unwrap()
+                    ctx.render(&LoginModal)
                 )
             )
             .add_right(
@@ -91,7 +91,7 @@ impl Navbar {
                     "register",
                     "Sign Up",
                     "btn-secondary",
-                    ctx.render(&SignUpModal).unwrap()
+                    ctx.render(&SignUpModal)
                 )
             );
 
@@ -114,8 +114,13 @@ impl Navbar {
                             format!("/profile/{}", uuid.to_hyphenated()),
                             "Profile"
                         )
+                            .class("mr-2 mb-2 btn btn-primary")
                     )
-                    .add_right(ctx, NavbarLink::new("/logout", "Logout"));
+                    .add_right(ctx,
+                               NavbarLink::new("/logout", "Logout")
+                                   .class("mr-2 mb-2 btn btn-secondary"))
+                    // Add API access for users.
+                    .add_left(ctx, NavbarLink::new("/playground", "API"));
                 navbar
             })
     }
